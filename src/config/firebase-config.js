@@ -1,4 +1,5 @@
 import { initializeApp } from "firebase/app";
+
 import {
   getAuth,
   GoogleAuthProvider,
@@ -8,15 +9,16 @@ import {
 import { getFirestore } from "firebase/firestore";
 
 const firebaseConfig = {
-  apiKey: "AIzaSyAYdA5n_zwJ9tskTC6kiDbwWCWZXTmoOEQ",
+  apiKey: process.env.REACT_APP_FIREBASE_API_KEY,
   authDomain: "mlelink.firebaseapp.com",
   projectId: "mlelink",
   storageBucket: "mlelink.appspot.com",
   messagingSenderId: "747694506677",
-  appId: "1:747694506677:web:20efff9dedb00b5b77f4fc",
+  appId: process.env.REACT_APP_FIREBASE_API_ID,
 };
 
 const app = initializeApp(firebaseConfig);
+
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const googleProvider = new GoogleAuthProvider();
