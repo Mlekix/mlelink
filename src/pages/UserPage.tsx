@@ -8,6 +8,7 @@ import { db } from "../config/firebase-config";
 
 import LogOut from "../components/LogOut";
 import Card from "../components/Card";
+import LinkBtn from "../components/LinkBtn";
 
 const UserPage: React.FC = () => {
   const [user, setUser] = useState<User | null>(null);
@@ -51,6 +52,8 @@ const UserPage: React.FC = () => {
       {user ? (
         <div>
           <h1>Welcome, {user.displayName}</h1>
+          <LinkBtn destination="/settings" destinationName="Settings"></LinkBtn>
+
           {firstTime ? <SettingsComponent /> : <UserProfile />}
         </div>
       ) : (
@@ -62,7 +65,10 @@ const UserPage: React.FC = () => {
 
 const SettingsComponent: React.FC = () => (
   <div>
-    <h2>First Time Settings</h2>
+    <h1>
+      You are first time here so lets go to settings, to set up your new
+      MleLink!
+    </h1>
   </div>
 );
 
