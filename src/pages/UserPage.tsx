@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+
 import { useNavigate } from "react-router-dom";
 
 import { auth } from "../config/firebase-config";
@@ -47,7 +48,7 @@ const UserPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center text-center">
       <LogOut />
       {user ? (
         <div>
@@ -65,10 +66,10 @@ const UserPage: React.FC = () => {
 
 const SettingsComponent: React.FC = () => (
   <div>
-    <h1>
-      You are first time here so lets go to settings, to set up your new
-      MleLink!
-    </h1>
+    <h2>
+      So i see You are first time here so lets go to settings then, to set up
+      your new MleLink!
+    </h2>
   </div>
 );
 

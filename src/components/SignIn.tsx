@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+
 import { auth, googleProvider } from "../config/firebase-config";
 import { signInWithPopup } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";

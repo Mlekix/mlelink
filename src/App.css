@@ -1,0 +1,11 @@
+h1 {
+  font-size: 200%;
+  font-weight: bold;
+  border-bottom: solid 1px black;
+  margin: 10px;
+}
+
+h2 {
+  font-size: 150%;
+  font-weight: 500;
+}

@@ -1,8 +1,51 @@
+import React, { useEffect, useState } from "react";
+
+import { auth, db } from "../config/firebase-config";
+import { doc, getDoc } from "firebase/firestore";
+
+interface LinkItem {
+  name: string;
+  url: string;
+}
+
+interface UserProfileData {
+  bio: string;
+  links: LinkItem[];
+}
+
 const Card: React.FC = () => {
+  const [userData, setUserData] = useState<UserProfileData | null>(null);
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      if (auth.currentUser) {
+        try {
+          const userDocRef = doc(db, "users", auth.currentUser.uid);
+          const userDocSnap = await getDoc(userDocRef);
+
+          if (userDocSnap.exists()) {
+            const data = userDocSnap.data() as UserProfileData;
+            setUserData(data);
+          } else {
+            console.error("err from firebase");
+          }
+        } catch (err) {
+          console.error(err);
+        }
+      }
+    };
+
+    fetchUserData();
+  }, []);
+
+  if (!userData) {
+    return <div>Loading...</div>;
+  }
+
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex items-center justify-center bg-gray-100">
       <div className="bg-white shadow-lg rounded-lg p-6 w-80">
-        {/* Profile Picture */}
+        {/* Profile Picture WIP */}
         <div className="flex justify-center mb-4">
           <img
             src=""
@@ -11,24 +54,31 @@ const Card: React.FC = () => {
           />
         </div>
 
-        {/* Name/Title */}
-        <h2 className="text-center text-xl font-semibold mb-2">John Doe</h2>
-        <p className="text-center text-gray-500 mb-6">Web Developer</p>
+        {/* Name */}
+        <h2 className="text-center text-xl font-semibold mb-2">
+          {auth.currentUser?.displayName}
+        </h2>
 
-        {/* Link Buttons */}
+        {/* Bio input */}
+        <p className="text-center text-gray-500 mb-6">{userData.bio}</p>
+
+        {/* Link inputs */}
         <div className="space-y-4">
-          <button className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
-            About Me
-          </button>
-          <button className="block w-full text-center bg-red-500 hover:bg-red-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
-            Projects
-          </button>
-          <button className="block w-full text-center bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300">
-            Contact
-          </button>
+          {userData.links.map((link, index) => (
+            <a
+              key={index}
+              href={link.url}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block w-full text-center bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg transition duration-300"
+            >
+              {link.name}
+            </a>
+          ))}
         </div>
       </div>
     </div>
   );
 };
+
 export default Card;
