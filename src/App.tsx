@@ -1,8 +1,9 @@
 import React from "react";
 import "./App.css";
-import { Route, Routes, Link } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import UserPage from "./pages/UserPage";
 import StartPage from "./pages/StartPage";
+import SettingsPage from "./pages/SettingsPage";
 
 const NotFound: React.FC = () => <h2 className="text-2xl">404 Not Found</h2>;
 
@@ -13,6 +14,7 @@ const App: React.FC = () => {
         <Route path="/" element={<StartPage />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="*" element={<NotFound />} />
+        <Route path="/settings" element={<SettingsPage />} />
       </Routes>
     </div>
   );

@@ -1,13 +1,13 @@
 import React from "react";
-import { auth } from "../config/firebase-config";
-import { signOut } from "firebase/auth";
+
 import { useNavigate } from "react-router-dom";
 
-const LogOut = () => {
-  // Route after Sign Out
+import { auth } from "../config/firebase-config";
+import { signOut } from "firebase/auth";
+
+const LogOut: React.FC = () => {
   const navigate = useNavigate();
 
-  // Sign Out
   const handleLogout = async () => {
     try {
       await signOut(auth);
