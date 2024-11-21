@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { auth } from "../config/firebase-config";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
-import { db } from "../config/firebase-config";
+import { db, collectionUsersName } from "../config/firebase-config";
 
 import LogOut from "../components/LogOut";
 import Card from "../components/Card";
@@ -31,7 +31,7 @@ const UserPage: React.FC = () => {
 
   const checkIfFirstTime = async (uid: string) => {
     try {
-      const userDocRef = doc(db, "users", uid);
+      const userDocRef = doc(db, collectionUsersName, uid);
       const userDocSnap = await getDoc(userDocRef);
 
       if (userDocSnap.exists()) {

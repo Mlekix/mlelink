@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { auth, googleProvider } from "../config/firebase-config";
 import { signInWithPopup } from "firebase/auth";
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../config/firebase-config";
+import { db, collectionUsersName } from "../config/firebase-config";
 
 const SignIn: React.FC = () => {
   const navigate = useNavigate();
@@ -13,7 +13,7 @@ const SignIn: React.FC = () => {
       const result = await signInWithPopup(auth, googleProvider);
       const user = result.user;
 
-      const userDocRef = doc(db, "users", user.uid);
+      const userDocRef = doc(db, collectionUsersName, user.uid);
       const userDocSnap = await getDoc(userDocRef);
 
       if (!userDocSnap.exists()) {
