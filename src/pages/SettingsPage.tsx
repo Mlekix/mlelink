@@ -10,7 +10,8 @@ const presetImages = [
 ];
 
 const SettingsPage: React.FC = () => {
-  const [selectedPreset, setSelectedPreset] = useState<string>("default");
+  const [selectedStylePreset, setSelectedStylePreset] =
+    useState<string>("default");
   const [bio, setBio] = useState<string>("");
   const [cardName, setCardName] = useState<string>("");
   const [links, setLinks] = useState<{ name: string; url: string }[]>([]);
@@ -28,7 +29,7 @@ const SettingsPage: React.FC = () => {
           const userData = userDocSnap.data();
           setBio(userData.bio || "");
           setCardName(userData.cardName || auth.currentUser.displayName);
-          setSelectedPreset(userData.stylePreset || "default");
+          setSelectedStylePreset(userData.stylePreset || "default");
           setLinks(userData.links || [{ name: "", url: "" }]);
           setProfilePicUrl(userData.profilePicUrl || presetImages[0]);
         }
@@ -54,7 +55,7 @@ const SettingsPage: React.FC = () => {
         {
           bio,
           cardName,
-          stylePreset: selectedPreset,
+          stylePreset: selectedStylePreset,
           links,
           profilePicUrl,
         },
@@ -66,6 +67,28 @@ const SettingsPage: React.FC = () => {
       console.error("Error saving settings:", error);
       alert("Failed to save settings.");
     }
+  };
+
+  const ensureHttps = (url: string) => {
+    if (!url.startsWith("http://") && !url.startsWith("https://")) {
+      return `https://${url}`;
+    }
+    return url;
+  };
+
+  const handleLinkChange = (
+    index: number,
+    field: "name" | "url",
+    value: string
+  ) => {
+    const updatedLinks = [...links];
+    updatedLinks[index][field] = field === "url" ? ensureHttps(value) : value;
+    setLinks(updatedLinks);
+  };
+
+  const handleDeleteLink = (index: number) => {
+    const updateDeletedLinks = links.filter((_, i) => i !== index); //Co jest bardziej zgodne z konwencją _ czy element?
+    setLinks(updateDeletedLinks);
   };
 
   return (
@@ -123,8 +146,8 @@ const SettingsPage: React.FC = () => {
         <h3>Choose a style for your MleLink</h3>
         <select
           id="stylePreset"
-          value={selectedPreset}
-          onChange={(e) => setSelectedPreset(e.target.value)}
+          value={selectedStylePreset}
+          onChange={(e) => setSelectedStylePreset(e.target.value)}
           className="mt-1 block pl-3 pr-10 py-2 text-base border border-gray-500 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm rounded-md"
         >
           <option value="default">Default</option>
@@ -158,11 +181,18 @@ const SettingsPage: React.FC = () => {
               setLinks((prev) => {
                 const updated = [...prev];
                 updated[index].url = e.target.value;
+                handleLinkChange(index, "url", e.target.value);
                 return updated;
               })
             }
             className="p-1 border border-blue-500 rounded-md"
           />
+          <button
+            onClick={() => handleDeleteLink(index)}
+            className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+          >
+            Delete
+          </button>
         </div>
       ))}
       <button
@@ -172,7 +202,7 @@ const SettingsPage: React.FC = () => {
         Add New Link
       </button>
       <br />
-      {/* Save */}
+      {/* Save and send button */}
       <button
         onClick={handleSave}
         className="mt-5 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
