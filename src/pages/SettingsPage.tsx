@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { db, auth, collectionUsersName } from "../config/firebase-config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
-
-import LinkBtn from "../components/LinkBtn";
+import Popup from "../components/Popup";
 
 const presetImages = [
   "https://avatar.iran.liara.run/public/boy",
@@ -16,6 +15,9 @@ const SettingsPage: React.FC = () => {
   const [cardName, setCardName] = useState<string>("");
   const [links, setLinks] = useState<{ name: string; url: string }[]>([]);
   const [profilePicUrl, setProfilePicUrl] = useState<string>(presetImages[0]);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(true);
+  const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
+  const [navigationTarget, setNavigationTarget] = useState<string | null>(null);
 
   useEffect(() => {
     const fetchSettings = async () => {
@@ -63,6 +65,7 @@ const SettingsPage: React.FC = () => {
       );
 
       alert("Settings saved successfully!");
+      setHasUnsavedChanges(false);
     } catch (error) {
       console.error("Error saving settings:", error);
       alert("Failed to save settings.");
@@ -87,16 +90,37 @@ const SettingsPage: React.FC = () => {
   };
 
   const handleDeleteLink = (index: number) => {
-    const updateDeletedLinks = links.filter((_, i) => i !== index); //Co jest bardziej zgodne z konwencją _ czy element?
-    setLinks(updateDeletedLinks);
+    const updatedLinks = links.filter((_, i) => i !== index);
+    setLinks(updatedLinks);
+  };
+
+  const handleNavigation = (destination: string) => {
+    if (hasUnsavedChanges) {
+      setNavigationTarget(destination);
+      setIsPopupVisible(true);
+    } else {
+      window.location.href = destination;
+    }
+  };
+
+  const handleConfirmNavigation = () => {
+    setIsPopupVisible(false);
+    if (navigationTarget) {
+      window.location.href = navigationTarget;
+    }
   };
 
   return (
     <div>
       <h1>Settings</h1>
 
-      {/* Back to main page */}
-      <LinkBtn destination="/user" destinationName="Back to main page" />
+      {/* Back to main page button */}
+      <button
+        onClick={() => handleNavigation("/user")}
+        className="m-5 ml-0 p-1 px-2 border bg-yellow-300 border-yellow-400 text-black rounded-md hover:border-yellow-600 hover:bg-yellow-500 hover:text-white transition-all duration-300"
+      >
+        Back to main page
+      </button>
       <br />
 
       {/* Name Input */}
@@ -202,6 +226,7 @@ const SettingsPage: React.FC = () => {
         Add New Link
       </button>
       <br />
+
       {/* Save and send button */}
       <button
         onClick={handleSave}
@@ -209,6 +234,15 @@ const SettingsPage: React.FC = () => {
       >
         Save
       </button>
+
+      {/* Popup */}
+      {isPopupVisible && (
+        <Popup
+          message="You have unsaved changes. Do you want to continue without saving?"
+          onConfirm={handleConfirmNavigation}
+          onCancel={() => setIsPopupVisible(false)}
+        />
+      )}
     </div>
   );
 };
