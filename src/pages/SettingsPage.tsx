@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { db, auth, collectionUsersName } from "../config/firebase-config";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import Popup from "../components/Popup";
-import * as Yup from "yup";
+import validationSchema from "../config/validationSchema";
 import { useFormik } from "formik";
 
 const presetImages = [
@@ -14,25 +14,6 @@ const SettingsPage: React.FC = () => {
   const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(true);
   const [isPopupVisible, setIsPopupVisible] = useState<boolean>(false);
   const [navigationTarget, setNavigationTarget] = useState<string | null>(null);
-
-  const validationSchema = Yup.object({
-    cardName: Yup.string()
-      .min(3, "Too short")
-      .max(25, "Too long")
-      .required("Required"),
-    bio: Yup.string().max(70, "Too long"),
-    links: Yup.array()
-      .of(
-        Yup.object({
-          name: Yup.string().required("Link name is required"),
-          url: Yup.string()
-            .url("Invalid URL format")
-            .required("URL is required"),
-        })
-      )
-      .min(1, "At least one link is required")
-      .max(5, "Too many links"),
-  });
 
   const formik = useFormik({
     initialValues: {
@@ -115,7 +96,7 @@ const SettingsPage: React.FC = () => {
   };
 
   return (
-    <div>
+    <div className="flex flex-col items-center">
       <h1>Settings</h1>
 
       {/* Back to main page button */}
@@ -146,7 +127,7 @@ const SettingsPage: React.FC = () => {
         {/* Bio Input */}
         <h3 className="mt-5">What describes your MleLink? (Optional)</h3>
         <input
-          className="p-1.5 pr-10 mr-3 border border-blue-500 rounded-md"
+          className="p-1.5 pr-10 space-x-10 border border-blue-500 rounded-md"
           id="bio"
           name="bio"
           type="text"
