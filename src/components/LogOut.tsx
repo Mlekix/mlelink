@@ -11,7 +11,7 @@ const LogOut: React.FC = () => {
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      navigate("/");
+      navigate("/mlelink");
       console.log("User signed out");
     } catch (error) {
       console.error("Error during sign-out:", error);

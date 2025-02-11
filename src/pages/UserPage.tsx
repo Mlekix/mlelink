@@ -52,7 +52,7 @@ const UserPage: React.FC = () => {
       <LogOut />
       {user ? (
         <div>
-          <h1>Welcome, {user.displayName}</h1>
+          <h1>Welcome, {user.displayName || "User!"}</h1>
           <LinkBtn destination="/settings" destinationName="Settings"></LinkBtn>
 
           {firstTime ? <SettingsComponent /> : <UserProfile />}
