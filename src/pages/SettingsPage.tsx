@@ -102,7 +102,7 @@ const SettingsPage: React.FC = () => {
       {/* Back to main page button */}
       <button
         onClick={() => handleNavigation("/user")}
-        className="m-5 ml-0 p-1 px-2 border bg-yellow-300 border-yellow-400 text-black rounded-md hover:border-yellow-600 hover:bg-yellow-500 hover:text-white transition-all duration-300"
+        className="m-5 p-1 px-2 border bg-yellow-300 border-yellow-400 text-black rounded-md hover:border-yellow-600 hover:bg-yellow-500 hover:text-white transition-all duration-300"
       >
         Back to main page
       </button>
@@ -112,7 +112,7 @@ const SettingsPage: React.FC = () => {
         {/* Name Input */}
         <h3>Name of your MleLink Card</h3>
         <input
-          className="p-1.5 pr-10 mr-3 border border-blue-500 rounded-md"
+          className="p-1.5 pr-10 border border-blue-500 rounded-md"
           id="cardName"
           name="cardName"
           type="text"
@@ -127,7 +127,7 @@ const SettingsPage: React.FC = () => {
         {/* Bio Input */}
         <h3 className="mt-5">What describes your MleLink? (Optional)</h3>
         <input
-          className="p-1.5 pr-10 space-x-10 border border-blue-500 rounded-md"
+          className="p-1.5 pr-10 border border-blue-500 rounded-md"
           id="bio"
           name="bio"
           type="text"
@@ -141,7 +141,7 @@ const SettingsPage: React.FC = () => {
 
         {/* Profile Picture Selection */}
         <h3 className="mt-5">Choose a Profile Picture</h3>
-        <div className="flex space-x-4">
+        <div className="flex space-x-5">
           {presetImages.map((imgUrl, index) => (
             <img
               key={index}
