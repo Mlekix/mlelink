@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "/mlelink/static/css/main.54a29375.css",
-    "main.js": "/mlelink/static/js/main.8303868f.js",
+    "main.js": "/mlelink/static/js/main.a1e200b6.js",
     "index.html": "/mlelink/index.html",
     "main.54a29375.css.map": "/mlelink/static/css/main.54a29375.css.map",
-    "main.8303868f.js.map": "/mlelink/static/js/main.8303868f.js.map"
+    "main.a1e200b6.js.map": "/mlelink/static/js/main.a1e200b6.js.map"
   },
   "entrypoints": [
     "static/css/main.54a29375.css",
-    "static/js/main.8303868f.js"
+    "static/js/main.a1e200b6.js"
   ]
 }
