@@ -11,7 +11,7 @@ const App: React.FC = () => {
   return (
     <div className="container mx-auto p-4">
       <Routes>
-        <Route path="/" element={<StartPage />} />
+        <Route path="/mlelink" element={<StartPage />} />
         <Route path="/user" element={<UserPage />} />
         <Route path="*" element={<NotFound />} />
         <Route path="/settings" element={<SettingsPage />} />
